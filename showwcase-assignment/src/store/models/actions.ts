@@ -1,3 +1,4 @@
-import { CounterActionTypes } from '../counter/models/action';
+import { HomeActionTypes } from "../home/models/action";
+import { EducationActionTypes } from "../educationDetails/models/action";
 
-export type AppAction = CounterActionTypes; // | TodoActionTypes
+export type AppAction = HomeActionTypes | EducationActionTypes;
