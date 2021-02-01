@@ -7,16 +7,15 @@ import {
 } from "react-router-dom";
 import EducationDetails from "./view/educationDetails";
 import HomePage from "./view/homePage";
-import { useSelector } from "react-redux";
-import { rootStore } from "./store/rootStore";
+import { connect } from "react-redux";
+import { AppState } from "./store/rootStore";
 
-function App() {
-  const name = useSelector((state: rootStore) => state.home).name;
+function App(props: IAppProps) {
   return (
     <Router>
       <Switch>
         <Route exact path="/" component={HomePage} />
-        {name ? (
+        {props.name ? (
           <Route exact path="/education" component={EducationDetails} />
         ) : (
           <Redirect to="/" />
@@ -26,4 +25,12 @@ function App() {
   );
 }
 
-export default App;
+interface IAppProps {
+  name: string;
+}
+
+const mapStateToProps = (state: AppState) => ({
+  name: state.home.name,
+});
+
+export default connect(mapStateToProps)(App);

@@ -16,7 +16,7 @@ interface EditNameAction {
 
 interface DeleteNameAction {
   type: typeof DELETE_NAME;
-  payload: IHome;
+  // payload: IHome;
 }
 
 export type HomeActionTypes = AddNameAction | EditNameAction | DeleteNameAction;
