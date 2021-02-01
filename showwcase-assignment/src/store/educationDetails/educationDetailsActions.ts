@@ -10,12 +10,12 @@ export const add_education = (payload: IEducationDetails[]) => ({
   payload,
 });
 
-export const edit_education = (payload: IEducationDetails) => ({
+export const edit_education = (payload: IEducationDetails[]) => ({
   type: EDIT_EDUCATION,
   payload,
 });
 
-export const delete_education = (index: number) => ({
+export const delete_education = (payload: IEducationDetails[]) => ({
   type: DELETE_EDUCATION,
-  payload: index,
+  payload,
 });

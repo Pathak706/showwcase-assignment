@@ -8,16 +8,62 @@ import { Dispatch } from "redux";
 
 import "./education.scss";
 import { IEducationDetails } from "../store/educationDetails/models/educationDetails";
+import { delete_education } from "../store/educationDetails/educationDetailsActions";
+
+declare global {
+  interface Array<T> {
+    removeAndReorder(elem: number): Array<T>;
+  }
+}
+
+if (!Array.prototype.removeAndReorder) {
+  Array.prototype.removeAndReorder = function <T>(elem: number): T[] {
+    this.splice(elem, 1);
+    this.map((arr, index) => {
+      arr.index = index;
+    });
+    return this;
+  };
+}
 export class EducationDetails extends Component<
   IEducationDetailsProps,
   IEducationDetailsState
 > {
   state: IEducationDetailsState = {
     modalOpen: false,
+    educationDetails: {
+      name_of_school: "",
+      degree: "",
+      field_of_study: "",
+      start_year: "",
+      end_year: "",
+      grade: "",
+      description: "",
+    },
   };
 
   handleModelChange = () => {
-    this.setState({ modalOpen: !this.state.modalOpen });
+    this.setState({
+      modalOpen: !this.state.modalOpen,
+      educationDetails: {
+        name_of_school: "",
+        degree: "",
+        field_of_study: "",
+        start_year: "",
+        end_year: "",
+        grade: "",
+        description: "",
+      },
+    });
+  };
+
+  editEducationDetails = (educationDetails: IEducationDetails) => {
+    this.setState({ modalOpen: true, educationDetails });
+  };
+
+  deleteEducationDetails = (educationDetails: IEducationDetails) => {
+    const prevState = this.props.education.removeAndReorder(educationDetails.index as number);
+    this.props.delete(prevState);
   };
 
   render() {
@@ -26,41 +72,79 @@ export class EducationDetails extends Component<
         <div className="greetings">
           <p>Welcome to {this.props.name}'s education page</p>
           <br />
-          <button onClick={this.handleModelChange}>Add new education</button>
+          <button className="primary-btn" onClick={this.handleModelChange}>
+            Add new education
+          </button>
         </div>
-        <div className="education-wrapper">
-          <div className="sidebar">
-            <ul className="education-title-list">
-              {this.props.education.length &&
-                this.props.education.map((edu, index) => (
+
+        {this.props.education.length > 0 ? (
+          <div className="education-wrapper">
+            <div className="sidebar">
+              <ul className="education-title-list">
+                {this.props.education.map((edu, index) => (
                   <li
                     className="education-title-item"
                     key={index}
-                    onClick={this.handleModelChange}
+                    onClick={() => this.editEducationDetails(edu)}
                   >
-                    <strong>{edu.degree}</strong>
-                    <span>{edu.name_of_school}</span>
-                    <span>
-                      {edu.start_year} - {edu.end_year}
-                    </span>
+                    <p>
+                      {/* {edu.name_of_school}&nbsp;——&nbsp; */}
+                      <strong>{edu.degree}</strong>
+                      <br />
+                      <span>
+                        {edu.start_year} to {edu.end_year}
+                      </span>
+                    </p>
                   </li>
                 ))}
-            </ul>
+              </ul>
+            </div>
+            <div className="education-details-list">
+              <ul className="education-list">
+                {this.props.education.map((edu, index) => (
+                  <li className="education-title-item" key={index}>
+                    <div className="education-details">
+                      <p>
+                        {edu.name_of_school}&nbsp;——&nbsp;
+                        <strong>{edu.degree}</strong>
+                        <span className="action-btn">
+                          <button
+                            className="edit-btn"
+                            onClick={() => this.editEducationDetails(edu)}
+                          >
+                            Edit
+                          </button>
+                          <button
+                            className="delete-btn"
+                            onClick={() => this.deleteEducationDetails(edu)}
+                          >
+                            Delete
+                          </button>
+                        </span>
+                        <br />
+                        <span>
+                          {edu.start_year} to {edu.end_year}
+                        </span>
+                      </p>
+                      <span>Grade:- {edu.grade}</span>
+                      <p>{edu.description}</p>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
-          <div className="education-details-list">
-            <ul className="education-list">
-              <li className="education-list-item">
-                <div className="education-details">
-                  <strong>92%</strong>
-                </div>
-              </li>
-            </ul>
+        ) : (
+          <div className="no-list" style={{ textAlign: "center" }}>
+            <p>Please add your education details</p>
           </div>
-        </div>
+        )}
+
         <ModalForm
           name={this.props.name}
           displayModal={this.state.modalOpen}
           closeModal={this.handleModelChange}
+          educationDetails={this.state.educationDetails}
         />
       </>
     );
@@ -69,9 +153,17 @@ export class EducationDetails extends Component<
 
 interface IEducationDetailsState {
   modalOpen: boolean;
+  educationDetails: IEducationDetails;
 }
 
-interface IDispatchProps {}
+interface IDispatchProps {
+  delete: (
+    payload: IEducationDetails[]
+  ) => {
+    type: string;
+    payload: IEducationDetails[];
+  };
+}
 
 interface IEducationDetailsProps extends IDispatchProps {
   name: string;
@@ -83,6 +175,8 @@ const mapStateToProps = (state: AppState) => ({
   education: state.education,
 });
 
-const mapDispatchToProps = (dispatch: Dispatch): IDispatchProps => ({});
+const mapDispatchToProps = (dispatch: Dispatch): IDispatchProps => ({
+  delete: (payload: IEducationDetails[]) => dispatch(delete_education(payload)),
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(EducationDetails);

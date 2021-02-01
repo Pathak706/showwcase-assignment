@@ -1,0 +1,28 @@
+.modal-content{
+    p {
+        font-size: 22px;
+        border-bottom: 1px dashed #ccc;
+    }
+    .modal-flex {
+      display: flex;
+      height: 100%;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      form {
+        width: 80%;
+        height: 100%;
+        .form-group {
+          padding: 15px;
+          justify-content: space-between;
+          display: flex;
+        }
+        button {
+          width: 70px;
+          padding: 8px;
+          margin: 15px;
+        }
+      }
+    }
+}

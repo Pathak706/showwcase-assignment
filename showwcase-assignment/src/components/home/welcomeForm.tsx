@@ -15,11 +15,15 @@ function WelcomeForm(props: IWelcomeFormProps) {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setname(e.target.value);
   };
+
   return (
-    <div>
-      Hi there! Welcome to your education showcase
+    <div
+      className="content-wrapper"
+      style={{ textAlign: "center", margin: "200px auto" }}
+    >
+      <p>Hi there! Welcome to your education showcase</p>
       <br />
-      Type your name and click "Enter" below to begin
+      <p>Type your name and click "Enter" below to begin</p>
       <br />
       <input
         type="text"
@@ -28,9 +32,22 @@ function WelcomeForm(props: IWelcomeFormProps) {
         id="name"
         name="name"
         onChange={handleChange}
+        style={{ padding: "10px", width: "200px" }}
       />
       <br />
-      <button onClick={handleSubmit}>Enter</button>
+      <button
+        onClick={handleSubmit}
+        style={{
+          padding: "10px",
+          width: "80px",
+          margin: "20px",
+          background: "blue",
+          color: "#fff",
+          fontSize: "20px"
+        }}
+      >
+        Enter
+      </button>
     </div>
   );
 }

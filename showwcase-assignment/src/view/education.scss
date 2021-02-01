@@ -19,4 +19,40 @@
       padding-top: 15px;
     }
   }
+  ul {
+    list-style: none;
+    li {
+      cursor: pointer;
+      margin-bottom: 15px;
+      padding-bottom: 15px;
+      border-bottom: 2px dotted rgb(243, 138, 138);
+      width: 90%;
+      p > span {
+        font-size: 11px;
+      }
+      .action-btn {
+        position: relative;
+        float: right;
+        button {
+          width: 50px;
+          padding: 5px;
+          margin: 8px;
+        }
+        .edit-btn {
+          background: orange;
+        }
+        .delete-btn {
+          background: red;
+        }
+      }
+    }
+    li:last-child {
+      border-bottom: none;
+    }
+  }
+}
+.primary-btn {
+  background: blue;
+  color: #fff;
+  padding: 10px;
 }

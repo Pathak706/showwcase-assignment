@@ -16,8 +16,9 @@ export const educationReducer = (
   switch (action.type) {
     case ADD_EDUCATION:
     case EDIT_EDUCATION:
-    case DELETE_EDUCATION:
       return action.payload;
+    case DELETE_EDUCATION:
+      return [...action.payload];
     default:
       return state;
   }
