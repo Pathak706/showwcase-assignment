@@ -1,7 +1,29 @@
-.modal-content{
+.modal {
+  .auto-complete-name {
+    color: #fff;
+    background: #000000;
+    width: 333px;
+    position: absolute;
+    left: 57em;
+    top: 13em;
+    ul {
+      list-style: none;
+      padding: 15px;
+      li {
+        padding-bottom: 10px;
+        margin-bottom: 10px;
+        border-bottom: 1px solid;
+        cursor: pointer;
+      }
+      li:last-child {
+        border-bottom: none;
+      }
+    }
+  }
+  .modal-content {
     p {
-        font-size: 22px;
-        border-bottom: 1px dashed #ccc;
+      font-size: 22px;
+      border-bottom: 1px dashed #ccc;
     }
     .modal-flex {
       display: flex;
@@ -25,4 +47,5 @@
         }
       }
     }
+  }
 }

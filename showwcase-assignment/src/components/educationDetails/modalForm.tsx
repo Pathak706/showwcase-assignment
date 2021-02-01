@@ -19,6 +19,8 @@ class ModalForm extends Component<IModalProps, IModalState> {
     grade: "",
     description: "",
     index: 0,
+    autoSuggesions: [],
+    showSuggesion: false,
   };
 
   componentWillReceiveProps(nextProps: IModalProps) {
@@ -50,6 +52,8 @@ class ModalForm extends Component<IModalProps, IModalState> {
       grade: "",
       description: "",
       index: 0,
+      autoSuggesions: [],
+      showSuggesion: false,
     });
   };
 
@@ -86,13 +90,40 @@ class ModalForm extends Component<IModalProps, IModalState> {
     this.resetState();
   };
 
+  getUniversityName = (e: React.ChangeEvent<HTMLInputElement>) => {
+    this.setState({ name_of_school: e.target.value }, () => {
+      fetch(
+        `http://universities.hipolabs.com/search?name=${this.state.name_of_school}`
+      )
+        .then((response) => response.json())
+        .then((data) =>
+          this.setState({ autoSuggesions: data, showSuggesion: true })
+        );
+    });
+  };
+
+  selectSchoolName = (name: string) => {
+    this.setState({ name_of_school: name, showSuggesion: false });
+  };
+
   render() {
     return (
       <div
         className="modal"
-        onClick={this.closeModal}
+        // onClick={this.closeModal}
         style={{ display: this.props.displayModal ? "block" : "none" }}
       >
+        {this.state.autoSuggesions.length > 0 && this.state.showSuggesion && (
+          <div className="auto-complete-name">
+            <ul>
+              {this.state.autoSuggesions.slice(0, 5).map((sug, index) => (
+                <li key={index} onClick={() => this.selectSchoolName(sug.name)}>
+                  {sug.name}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
         <div className="modal-content" onClick={(e) => e.stopPropagation()}>
           <span className="close" onClick={this.closeModal}>
             &times;
@@ -109,8 +140,9 @@ class ModalForm extends Component<IModalProps, IModalState> {
                   placeholder="Name of school"
                   name="name_of_school"
                   id="name_of_school"
-                  onChange={this.handleChange}
+                  onChange={this.getUniversityName}
                   defaultValue={this.state.name_of_school}
+                  value={this.state.name_of_school}
                 />
               </div>
               <div className="form-group">
@@ -204,8 +236,16 @@ interface IModalState {
   grade: string;
   description: string;
   index?: number;
+  autoSuggesions: Suggestion[];
+  showSuggesion: boolean;
 }
 
+interface Suggestion {
+  webpage: string;
+  country: string;
+  domain: string;
+  name: string;
+}
 interface IModalProps extends IDispatchProps {
   name: string;
   closeModal: () => void;
