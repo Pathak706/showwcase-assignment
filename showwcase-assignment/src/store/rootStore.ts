@@ -15,8 +15,9 @@ export const rootReducer = combineReducers({
 const persistConfig = {
   key: "showcase",
   storage: storage,
-  whitelist: ["education", "home"], // which reducer want to store
+  whitelist: ["home", "education"], // which reducer want to store
 };
+
 const pReducer = persistReducer(persistConfig, rootReducer);
 
 const middleware = applyMiddleware(thunk, logger);

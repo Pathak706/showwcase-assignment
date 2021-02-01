@@ -5,7 +5,7 @@ import {
 } from "./models/action";
 import { IEducationDetails } from "./models/educationDetails";
 
-export const add_education = (payload: IEducationDetails) => ({
+export const add_education = (payload: IEducationDetails[]) => ({
   type: ADD_EDUCATION,
   payload,
 });

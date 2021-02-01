@@ -6,17 +6,17 @@ export const DELETE_EDUCATION = "DELETE_EDUCATION";
 
 interface IAddEducationAction {
   type: typeof ADD_EDUCATION;
-  payload: IEducationDetails;
+  payload: IEducationDetails[];
 }
 
 interface IEditEducationAction {
   type: typeof EDIT_EDUCATION;
-  payload: IEducationDetails;
+  payload: IEducationDetails[];
 }
 
 interface IDeleteEducationAction {
   type: typeof DELETE_EDUCATION;
-  payload: number;
+  payload: IEducationDetails[];
 }
 
 export type EducationActionTypes = IAddEducationAction | IEditEducationAction | IDeleteEducationAction;

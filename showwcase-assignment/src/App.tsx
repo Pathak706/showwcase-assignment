@@ -6,15 +6,15 @@ import {
   Redirect,
 } from "react-router-dom";
 import EducationDetails from "./view/educationDetails";
-import HomePage from "./view/homePage";
 import { connect } from "react-redux";
 import { AppState } from "./store/rootStore";
+import WelcomeForm from "./components/home/welcomeForm";
 
 function App(props: IAppProps) {
   return (
     <Router>
       <Switch>
-        <Route exact path="/" component={HomePage} />
+        <Route exact path="/" component={WelcomeForm} />
         {props.name ? (
           <Route exact path="/education" component={EducationDetails} />
         ) : (
