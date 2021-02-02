@@ -4,6 +4,11 @@ import { AppState } from "../../store/rootStore";
 import { add_name, edit_name, delete_name } from "../../store/home/homeActions";
 import { Dispatch } from "redux";
 import { IHome } from "../../store/home/models/home";
+
+import { MainWrapper } from "../common/container";
+import Buttons from "../common/buttons";
+import Input from "../common/input";
+
 function WelcomeForm(props: IWelcomeFormProps) {
   const [name, setname] = useState(props.name || "");
   const handleSubmit = () => {
@@ -17,38 +22,24 @@ function WelcomeForm(props: IWelcomeFormProps) {
   };
 
   return (
-    <div
-      className="content-wrapper"
-      style={{ textAlign: "center", margin: "200px auto" }}
-    >
+    <MainWrapper>
       <p>Hi there! Welcome to your education showcase</p>
-      <br />
       <p>Type your name and click "Enter" below to begin</p>
       <br />
-      <input
-        type="text"
-        placeholder="Your Name"
-        defaultValue={name}
+      <Input
         id="name"
         name="name"
+        type="text"
+        placeholder="Your Name"
         onChange={handleChange}
-        style={{ padding: "10px", width: "200px" }}
+        defaultValue={props.name}
+        margin={"2em"}
       />
       <br />
-      <button
-        onClick={handleSubmit}
-        style={{
-          padding: "10px",
-          width: "80px",
-          margin: "20px",
-          background: "blue",
-          color: "#fff",
-          fontSize: "20px"
-        }}
-      >
+      <Buttons primary={true} fontSize={20} onClick={handleSubmit}>
         Enter
-      </button>
-    </div>
+      </Buttons>
+    </MainWrapper>
   );
 }
 

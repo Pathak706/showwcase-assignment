@@ -7,6 +7,8 @@ import {
 } from "../../store/educationDetails/educationDetailsActions";
 import { IEducationDetails } from "../../store/educationDetails/models/educationDetails";
 import { AppState } from "../../store/rootStore";
+import Buttons from "../common/buttons";
+import Input from "../common/input";
 import "./modalForm.scss";
 declare var window: any;
 class ModalForm extends Component<IModalProps, IModalState> {
@@ -65,7 +67,19 @@ class ModalForm extends Component<IModalProps, IModalState> {
     this.setState({ ...obj });
   };
 
-  handleSubmit = () => {
+  checkProperties(obj: any) {
+    for (var key in obj) {
+        if (obj[key] !== null && obj[key] !== "")
+            return false;
+    }
+    return true;
+}
+
+  handleSubmit = (e: any) => {
+    e.preventDefault();
+    if(this.checkProperties(this.state)) {
+      return alert("Please check the form you are submitting!");
+    }
     let currentObj = Object.assign({}, this.state, {
       index: this.props.education.length,
     });
@@ -133,56 +147,51 @@ class ModalForm extends Component<IModalProps, IModalState> {
           <div className="modal-flex">
             <form id="eduForm">
               <div className="form-group">
-                Name Of School:
-                <input
+                <Input
                   type="text"
-                  className="form-control"
                   placeholder="Name of school"
                   name="name_of_school"
                   id="name_of_school"
                   onChange={this.getUniversityName}
-                  defaultValue={this.state.name_of_school}
                   value={this.state.name_of_school}
+                  label={"Name Of School"}
                 />
               </div>
               <div className="form-group">
-                Degree:
-                <input
+                <Input
                   type="text"
-                  className="form-control"
                   placeholder="Degree"
                   name="degree"
                   id="degree"
                   onChange={this.handleChange}
                   defaultValue={this.state.degree}
+                  label={"Degree"}
                 />
               </div>
               <div className="form-group">
-                Field Of Study:
-                <input
+                <Input
                   type="text"
-                  className="form-control"
                   placeholder="Field of study"
                   name="field_of_study"
                   id="field_of_study"
                   onChange={this.handleChange}
                   defaultValue={this.state.field_of_study}
+                  label={"Field of study"}
                 />
               </div>
               <div className="form-group">
-                Grade:
-                <input
+                <Input
                   type="text"
-                  className="form-control"
-                  placeholder="grade"
+                  placeholder="Grade / CGPA"
                   name="grade"
                   id="grade"
                   onChange={this.handleChange}
                   defaultValue={this.state.grade}
+                  label={"Grade"}
                 />
               </div>
               <div className="form-group">
-                Description:
+                Description
                 <textarea
                   className="form-control"
                   placeholder="description"
@@ -194,31 +203,31 @@ class ModalForm extends Component<IModalProps, IModalState> {
                 />
               </div>
               <div className="form-group">
-                Start Month & Year:
-                <input
+                <Input
                   type="month"
                   name="start_year"
                   id="start_year"
                   onChange={this.handleChange}
                   defaultValue={this.state.start_year}
+                  label={"Start year and month"}
                 />
               </div>
               <div className="form-group">
-                End Month & Year:
-                <input
+                <Input
                   type="month"
                   name="end_year"
                   id="end_year"
                   onChange={this.handleChange}
                   defaultValue={this.state.end_year}
+                  label={"End year and month"}
                 />
               </div>
-              <button type="button" onClick={this.handleSubmit}>
+              <Buttons onClick={this.handleSubmit} success={true}>
                 Save
-              </button>
-              <button type="button" onClick={this.closeModal}>
+              </Buttons>
+              <Buttons type="button" onClick={this.closeModal} danger={true}>
                 Cancel
-              </button>
+              </Buttons>
             </form>
           </div>
         </div>

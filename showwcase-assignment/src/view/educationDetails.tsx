@@ -1,7 +1,5 @@
 import React, { Component } from "react";
-// import EducationList from "../components/educationDetails/educationList";
 import ModalForm from "../components/educationDetails/modalForm";
-// import Sidebar from "../components/educationDetails/sidebar";
 import { connect } from "react-redux";
 import { AppState } from "../store/rootStore";
 import { Dispatch } from "redux";
@@ -9,6 +7,7 @@ import { Dispatch } from "redux";
 import "./education.scss";
 import { IEducationDetails } from "../store/educationDetails/models/educationDetails";
 import { delete_education } from "../store/educationDetails/educationDetailsActions";
+import Buttons from "../components/common/buttons";
 
 declare global {
   interface Array<T> {
@@ -17,8 +16,10 @@ declare global {
 }
 
 if (!Array.prototype.removeAndReorder) {
+  // eslint-disable-next-line no-extend-native
   Array.prototype.removeAndReorder = function <T>(elem: number): T[] {
     this.splice(elem, 1);
+    // eslint-disable-next-line array-callback-return
     this.map((arr, index) => {
       arr.index = index;
     });
@@ -62,7 +63,9 @@ export class EducationDetails extends Component<
   };
 
   deleteEducationDetails = (educationDetails: IEducationDetails) => {
-    const prevState = this.props.education.removeAndReorder(educationDetails.index as number);
+    const prevState = this.props.education.removeAndReorder(
+      educationDetails.index as number
+    );
     this.props.delete(prevState);
   };
 
@@ -72,9 +75,12 @@ export class EducationDetails extends Component<
         <div className="greetings">
           <p>Welcome to {this.props.name}'s education page</p>
           <br />
-          <button className="primary-btn" onClick={this.handleModelChange}>
-            Add new education
-          </button>
+          <Buttons
+            primary={true}
+            onClick={this.handleModelChange}
+          >
+            Add New Education
+          </Buttons>
         </div>
 
         {this.props.education.length > 0 ? (
@@ -88,8 +94,7 @@ export class EducationDetails extends Component<
                     onClick={() => this.editEducationDetails(edu)}
                   >
                     <p>
-                      {/* {edu.name_of_school}&nbsp;——&nbsp; */}
-                      <strong>{edu.degree}</strong>
+                      <strong>{edu.name_of_school}</strong>
                       <br />
                       <span>
                         {edu.start_year} to {edu.end_year}
@@ -101,25 +106,15 @@ export class EducationDetails extends Component<
             </div>
             <div className="education-details-list">
               <ul className="education-list">
-                {this.props.education.map((edu, index) => (
+                {this.props.education.reverse().map((edu, index) => (
                   <li className="education-title-item" key={index}>
                     <div className="education-details">
                       <p>
-                        {edu.name_of_school}&nbsp;——&nbsp;
+                        {edu.name_of_school}&nbsp;@&nbsp;
                         <strong>{edu.degree}</strong>
                         <span className="action-btn">
-                          <button
-                            className="edit-btn"
-                            onClick={() => this.editEducationDetails(edu)}
-                          >
-                            Edit
-                          </button>
-                          <button
-                            className="delete-btn"
-                            onClick={() => this.deleteEducationDetails(edu)}
-                          >
-                            Delete
-                          </button>
+                          <Buttons warning={true} onClick={() => this.editEducationDetails(edu)}>Edit</Buttons>
+                          <Buttons danger={true} onClick={() => this.deleteEducationDetails(edu)}>Delete</Buttons>
                         </span>
                         <br />
                         <span>
