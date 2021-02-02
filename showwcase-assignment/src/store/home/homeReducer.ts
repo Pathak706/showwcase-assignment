@@ -25,7 +25,7 @@ export const homeReducer = (
       nextState.name = action.payload.name;
       return nextState;
     case DELETE_NAME:
-      nextState.name = action.payload.name || "";
+      nextState.name = "";
       return nextState;
     default:
       return state;
