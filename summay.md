@@ -46,4 +46,18 @@ src
     => change ui
 
 
+the project is completed see below for deployment
+
+➜ ✗ npm run build
+
+The build folder is ready to be deployed.
+You may serve it with a static server:
+
+  ✗ npm i -g serve
+
+  ✗ serve -s build
+
+Find out more about deployment here:
+
+  https://cra.link/deployment
     
